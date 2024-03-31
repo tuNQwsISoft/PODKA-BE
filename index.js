@@ -1,11 +1,29 @@
-const express = require('express');
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
+import connection from "./connection/connect-mongodb.js";
+import router from "./routes/routes.js";
 const app = express();
-const port = 3000;
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+dotenv.config();
+app.use(cors());
+app.use(morgan("tiny"));
+app.disable("x-powered-by");
+
+const PORT = process.env.PORT;
+connection().then(() => {
+        console.log("Connected to MongoDB!");
+
+        app.listen(PORT, () => {
+                console.log(`Server is running on port ${PORT}...`);
+        });
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+/** HTTP GET Request */
+app.get("/", (res) => {
+        res.status(201).json("Home GET Request");
 });
+
+app.use("/api", router);
