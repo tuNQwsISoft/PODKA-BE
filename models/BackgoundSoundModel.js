@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { CategorySchema } from "./CategoryModel.js";
 
 export const BackgroundSoundSchema = new mongoose.Schema({
   name: { type: String },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
 });
 
 export const BackgroundSound = mongoose.model(
