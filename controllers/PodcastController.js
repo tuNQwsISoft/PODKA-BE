@@ -41,7 +41,7 @@ export async function getPodcastById(req, res) {
     if (podcast) {
       const guests = [podcast.user.full_name];
       if (podcast.guests && podcast.guests.length > 0) {
-        guests.push(...podcast.guests.map((user) => user.full_name)); // Include additional guests
+        guests.push(...podcast.guests.map((user) => user.full_name));
       }
 
       const responseData = {
@@ -49,6 +49,7 @@ export async function getPodcastById(req, res) {
         title: podcast.name,
         creator: podcast.user.full_name,
         guests: guests,
+        podcast: podcast.podcast,
         likes: podcast.like,
         description: podcast.desc || null,
         category: podcast.category || null,

@@ -16,7 +16,7 @@ const upload = multer({
   },
 }).single("audioFile");
 
-uploadBackgroundSound.post("/BackgroundSound", upload, (req, res) => {
+uploadBackgroundSound.post("/background_sounds", upload, (req, res) => {
   // Changed route path to "/"
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -24,7 +24,7 @@ uploadBackgroundSound.post("/BackgroundSound", upload, (req, res) => {
 
   cloudinary.uploader.upload(
     req.file.path,
-    { resource_type: "video" },
+    { folder: "podka/background_sounds", resource_type: "video" },
     (error, result) => {
       if (error) {
         console.error("Upload to Cloudinary failed:", error);
@@ -32,7 +32,7 @@ uploadBackgroundSound.post("/BackgroundSound", upload, (req, res) => {
         return res.status(500).json({ error: "Upload failed" });
       }
       res.json({ audioUrl: result.secure_url });
-    },
+    }
   );
 });
 

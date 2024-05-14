@@ -16,7 +16,7 @@ const upload = multer({
   },
 }).single("audioFile");
 
-uploadPodcast.post("/Audio", upload, (req, res) => {
+uploadPodcast.post("/podcast", upload, (req, res) => {
   // Changed route path to "/"
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -24,7 +24,7 @@ uploadPodcast.post("/Audio", upload, (req, res) => {
 
   cloudinary.uploader.upload(
     req.file.path,
-    { resource_type: "video" },
+    { folder: "podka/audios", resource_type: "video" },
     (error, result) => {
       if (error) {
         console.error("Upload to Cloudinary failed:", error);
@@ -32,7 +32,7 @@ uploadPodcast.post("/Audio", upload, (req, res) => {
         return res.status(500).json({ error: "Upload failed" });
       }
       res.json({ audioUrl: result.secure_url });
-    },
+    }
   );
 });
 
