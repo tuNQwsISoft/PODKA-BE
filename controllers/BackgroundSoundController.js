@@ -61,7 +61,7 @@ export async function getPublicBackgroundSoundByUserById(req, res) {
 }
 
 export async function createBackgroundSound(req, res) {
-  const { user, audioUrl, isPublic } = req.body;
+  const { user, audioUrl, isPublic, name } = req.body;
 
   try {
     await connection();
@@ -69,6 +69,7 @@ export async function createBackgroundSound(req, res) {
       user,
       url: audioUrl,
       public: isPublic,
+      name: name,
     });
     await newBackgroundSound.save();
     res.status(200).json(newBackgroundSound);
